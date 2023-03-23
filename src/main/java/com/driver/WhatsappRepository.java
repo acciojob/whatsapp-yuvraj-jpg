@@ -31,12 +31,10 @@ public class WhatsappRepository {
         if(userMobile.contains(mobile)){
             throw new Exception("User already exists");
         }
-        else {
-            userMobile.add(mobile);
-            User user = new User(name,mobile);
-
+        userMobile.add(mobile);
+        User user = new User(name,mobile);
         return "sucsess";
-    }
+
     }
     // The list contains at least 2 users where the first user is the admin. A group has exactly one admin.
     // If there are only 2 users, the group is a personal chat and the group name should be kept as the name of the second user(other than admin)
@@ -90,23 +88,21 @@ public class WhatsappRepository {
         //If the message is sent successfully, return the final number of messages in that group.
     }
     public String changeAdmin(User approver, User user, Group group) throws Exception{
-        if(groupUserMap.containsKey(group)){
-            if(adminMap.get(group).equals(approver)){
-                if(groupUserMap.get(group).contains(user)){
-                    adminMap.put(group,user);
-                    return "success";
-                }
-                else{
-                    throw new Exception("User is not a participant");
-                }
-            }
-            else{
-                throw new Exception("Approver does not have rights");
+        if(!groupUserMap.containsKey(group)) throw new Exception("Group does not exist");
+        if(!adminMap.get(group).equals(approver))  throw new Exception("Approver does not have rights");
+
+        Boolean ismember=false;
+        List<User> userList = groupUserMap.get(group);
+        for(User user1 : userList){
+            if(user1.equals(user)){
+                ismember = true;
+                break;
             }
         }
-        else{
-            throw new Exception("Group does not exist");
-        }
+        if(ismember==false) throw new Exception("User is not a participant");
+        adminMap.put(group,user);
+        return "success";
+
         //Throw "Group does not exist" if the mentioned group does not exist
         //Throw "Approver does not have rights" if the approver is not the current admin of the group
         //Throw "User is not a participant" if the user is not a part of the group
