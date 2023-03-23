@@ -33,7 +33,7 @@ public class WhatsappRepository {
         }
         userMobile.add(mobile);
         User user = new User(name,mobile);
-        return "sucsess";
+        return  "SUCCESS";
 
     }
     // The list contains at least 2 users where the first user is the admin. A group has exactly one admin.
@@ -101,7 +101,7 @@ public class WhatsappRepository {
         }
         if(ismember==false) throw new Exception("User is not a participant");
         adminMap.put(group,user);
-        return "success";
+        return  "SUCCESS";
 
         //Throw "Group does not exist" if the mentioned group does not exist
         //Throw "Approver does not have rights" if the approver is not the current admin of the group
